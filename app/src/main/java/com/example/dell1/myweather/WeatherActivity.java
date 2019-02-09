@@ -257,7 +257,9 @@ public class WeatherActivity extends AppCompatActivity {
                             showAQIInfo(aqi);
                         }else
                         {
-                            Toast.makeText(WeatherActivity.this, responseText, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(WeatherActivity.this, "暂无空气质量数据", Toast.LENGTH_SHORT).show();
+                            aqiText.setText("暂无数据");
+                            pm25Text.setText("暂无数据");
 
                         }
                         swipeRefresh.setRefreshing(false);
@@ -446,7 +448,7 @@ public class WeatherActivity extends AppCompatActivity {
         String degree=weather.getHeWeather6().get(0).getNowX().getTmp()+"℃";
         String weatherInfo=weather.getHeWeather6().get(0).getNowX().getCond_txt();
         titleCity.setText(cityName);
-        titleUpdateTime.setText(updateTime);
+        titleUpdateTime.setText(updateTime+" 更新");
         degreeText.setText(degree);
         weatherInfoText.setText(weatherInfo);
         forecastLayout.removeAllViews();
