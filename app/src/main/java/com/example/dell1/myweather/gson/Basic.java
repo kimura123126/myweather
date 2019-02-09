@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by DELL1 on 2019/2/2.
  */
 
-public class Basic {
+/*public class Basic {
     @SerializedName("location")
     public String countyName;
 
@@ -40,4 +40,22 @@ public class Basic {
         this.weatherId = weatherId;
     }
 
+}*/
+public class Basic {
+    /**
+     * 使用@SerializedName注解的方式让JSON字段和Java字段建立映射关系
+     */
+    @SerializedName("location")
+    public String cityName;
+
+    @SerializedName("cid")
+    public String weatherId;
+
+    public Update update;
+
+    public class Update
+    {
+        @SerializedName("loc")
+        public String updateTime;
+    }
 }

@@ -25,7 +25,9 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class AutoUpdateService extends Service {
+import static com.example.dell1.myweather.util.Utility.handleWeatherResponse;
+
+/*public class AutoUpdateService extends Service {
 
     private Weather weather;
 
@@ -63,16 +65,20 @@ public class AutoUpdateService extends Service {
         String weatherString = prefs.getString("weather", null);
         if (weatherString != null) {
             Weather weather = Utility.JsonToWeather(weatherString);
-            String weatherId = weather.basic.weatherId;
+            String weatherId = weather.basic.weatherId;*/
 
-            String forecastUrl = "https://free-api.heweather.net/s6/weather/forecast?location=" +
+        /*    String forecastUrl = "https://free-api.heweather.net/s6/weather/forecast?location=" +
                     weatherId + "&key=92d39e652ac34b5daf208d0ca0d7a3d8";
             String nowUrl = "https://free-api.heweather.net/s6/weather/now?location=" +
                     weatherId + "&key=92d39e652ac34b5daf208d0ca0d7a3d8";
             String AQIUrl = "https://free-api.heweather.net/s6/air/now?location=" +
                     weatherId + "&key=92d39e652ac34b5daf208d0ca0d7a3d8";
             String LifeUrl = "https://free-api.heweather.net/s6/weather/lifestyle?location=" +
-                    weatherId + "&key=92d39e652ac34b5daf208d0ca0d7a3d8";
+                    weatherId + "&key=92d39e652ac34b5daf208d0ca0d7a3d8";*/
+         /*   String forecastUrl = "https://free-api.heweather.com/s6/weather/forecast?key=616311bcf67743388cdfbb2ca86cf42f&location="+weatherId.toString();
+            String nowUrl = "https://free-api.heweather.com/s6/weather/now?key=616311bcf67743388cdfbb2ca86cf42f&location="+weatherId.toString();
+            String AQIUrl = "https://free-api.heweather.com/s6/air/now?key=616311bcf67743388cdfbb2ca86cf42f&location="+weatherId.toString();
+            String LifeUrl = "https://free-api.heweather.com/s6/weather/lifestyle?key=616311bcf67743388cdfbb2ca86cf42f&location="+weatherId.toString();
 
             requestAndUpdate(forecastUrl, Define.FORECAST);
             requestAndUpdate(nowUrl, Define.NOW);
@@ -153,4 +159,86 @@ public class AutoUpdateService extends Service {
             }
         });
     }
+}*/
+
+public class AutoUpdateService extends Service {
+    public AutoUpdateService() {
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        updateWeather();
+        updateBingPic();
+        AlarmManager manager=(AlarmManager)getSystemService(ALARM_SERVICE);
+        int anHour=4*60*60*1000;
+        long triggerAtTime= SystemClock.elapsedRealtime()+anHour;
+        Intent i=new Intent(this,AutoUpdateService.class);
+        PendingIntent pi=PendingIntent.getService(this,0,i,0);
+        manager.cancel(pi);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,triggerAtTime,pi);
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void updateBingPic() {
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String weatherString=prefs.getString("weather",null);
+        if(weatherString!=null)
+        {
+            Weather weather= Utility.handleWeatherResponse(weatherString);
+            String weatherId=weather.getHeWeather6().get(0).getBasicX().getCid();
+            String weatherUrl="https://free-api.heweather.com/s6/weather?location="+weatherId.toString()+"&key=5cfa71f0523045cbbc2a915848c89ad4";
+
+            HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responseText=response.body().string();
+
+                    Weather weather=handleWeatherResponse(responseText);
+                       //weather.getHeWeather6().get(0).getStatusX()
+                    if((weather != null) && "ok".equals(weather.getHeWeather6().get(0).getStatusX()))
+                    {
+                        SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
+
+                        editor.putString("weather",responseText);
+                        editor.apply();
+
+                    }
+                }
+
+            });
+        }
+    }
+
+
+    private void updateWeather() {
+        final String requestBingPic="http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bingPic=response.body().string();
+                SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
+                editor.putString("bing_pic",bingPic);
+                editor.apply();
+            }
+        });
+
+    }
 }
+

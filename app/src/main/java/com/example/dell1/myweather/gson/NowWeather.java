@@ -5,12 +5,12 @@ package com.example.dell1.myweather.gson;
  */
 
 public class NowWeather {
-    public Now now;
+/*    public Now now;
 
     public Basic basic;
 
     public Update update;
 
-    public String status;
+    public String status;*/
 
 }

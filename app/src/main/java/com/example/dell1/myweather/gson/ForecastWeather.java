@@ -9,13 +9,13 @@ import java.util.List;
  */
 
 public class ForecastWeather {
-    public Basic basic;
+  /*  public Basic basic;
 
     public Update update;
 
     public String status;
 
     @SerializedName("daily_forecast")
-    public List<Forecast> forecastList;
+    public List<Forecast> forecastList;*/
 
 }

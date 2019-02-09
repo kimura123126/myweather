@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Update {
-    @SerializedName("loc")
+    /*@SerializedName("loc")
     public String updateTime;
 
     public String getUpdateTime() {
@@ -16,5 +16,5 @@ public class Update {
 
     public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
-    }
+    }*/
 }

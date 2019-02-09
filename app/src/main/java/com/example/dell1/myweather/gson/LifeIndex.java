@@ -9,8 +9,8 @@ import java.util.List;
  */
 
 public class LifeIndex {
-    @SerializedName("lifestyle")
+/*    @SerializedName("lifestyle")
     public List<Lifestyle> lifestyleList;
 
-    public String status;
+    public String status;*/
 }
