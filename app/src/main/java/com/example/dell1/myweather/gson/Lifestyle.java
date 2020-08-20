@@ -30,6 +30,7 @@ import com.google.gson.annotations.SerializedName;
 
 
 }*/
+//对应书上的Suggestion类
 public class Lifestyle {
 
     //舒适指数

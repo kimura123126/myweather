@@ -261,6 +261,7 @@ public class WeatherActivity extends AppCompatActivity {
                             aqiText.setText("暂无数据");
                             pm25Text.setText("暂无数据");
 
+
                         }
                         swipeRefresh.setRefreshing(false);
                     }
@@ -487,7 +488,8 @@ public class WeatherActivity extends AppCompatActivity {
             aqiText.setText("环保部监测站点未覆盖当前地区");
             pm25Text.setText("环保部监测站点未覆盖当前地区");
         }*/
-
+       //getHeWeather6()返回List
+        //显示什么信息是由返回天气数据决定的  数据包含了气温 运动建议等数据。
         String comfort = "舒适度："+weather.getHeWeather6().get(0).getLifestyle().get(0).getTxt();
         String carWash = "洗车指数："+weather.getHeWeather6().get(0).getLifestyle().get(6).getTxt();
         String sport = "运动建议："+weather.getHeWeather6().get(0).getLifestyle().get(3).getTxt();

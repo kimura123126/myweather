@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:text="文刀建议"
+        android:text="今日建议"
         android:textColor="#fff"
         android:textSize="20sp"/>
     <TextView
@@ -35,10 +35,12 @@
         android:textColor="#fff"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:textColor="#fff"/>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:text="QQ: 491136327"
+    android:layout_margin="15dp"
+    android:textColor="#fff"/>
 
 
 </LinearLayout>
